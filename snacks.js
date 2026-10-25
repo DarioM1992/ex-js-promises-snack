@@ -53,5 +53,26 @@ function getPost(id) {
 }
 
 getPost(1)
-.then(title => console.log('Post:', post))
+.then(post => console.log('Post:', post))
 .catch(err => console.error(err));
+
+//SNACK-2
+ 
+function lanciaDado() {
+    return new Promise((resolve,reject) => {
+        console.log('Sto lanciando il dado...');
+        setTimeout(() => {
+            if(Math.random() < 0.2) {
+                reject('Il dado si è incastrato! Rilancialo...')
+            } else {
+                const result = Math.floor(Math.random() * 6) + 1;
+                resolve(result);
+            }
+        },3000);
+        
+    });
+}
+
+lanciaDado()
+.then( result => console.log('Il dado ha fatto uscire:', result))
+.catch(err => console.log(err))
