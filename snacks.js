@@ -58,21 +58,59 @@ getPost(1)
 
 //SNACK-2
  
-function lanciaDado() {
-    return new Promise((resolve,reject) => {
+// function lanciaDado() {
+//     return new Promise((resolve,reject) => {
+//         console.log('Sto lanciando il dado...');
+//         setTimeout(() => {
+//             if(Math.random() < 0.2) {
+//                 reject('Il dado si è incastrato! Rilancialo...')
+//             } else {
+//                 const result = Math.floor(Math.random() * 6) + 1;
+//                 resolve(result);
+//             }
+//         },3000);
+        
+//     });
+// }
+
+// lanciaDado()
+// .then( result => console.log('Il dado ha fatto uscire:', result))
+// .catch(err => console.log(err))
+
+//SNACK-2 BONUS
+
+function creaLanciaDado() {
+
+    let ultimoLancio = null; //null perchè attualmente non è avvenuto nessun lancio
+
+    return function() {
+        return new Promise((resolve,reject) => {
         console.log('Sto lanciando il dado...');
         setTimeout(() => {
-            if(Math.random() < 0.2) {
+            if(false) {
                 reject('Il dado si è incastrato! Rilancialo...')
             } else {
-                const result = Math.floor(Math.random() * 6) + 1;
+                const result = 6;
+                if(result === ultimoLancio){
+                    console.log('Incredibile!')
+                }
+                ultimoLancio = result;
                 resolve(result);
             }
         },3000);
         
     });
+    }
 }
 
-lanciaDado()
-.then( result => console.log('Il dado ha fatto uscire:', result))
+
+const lancioDadoMemorizzato = creaLanciaDado();
+
+lancioDadoMemorizzato()
+.then( result => {
+    console.log('Il dado ha fatto uscire:', result)
+    lancioDadoMemorizzato()
+    .then(console.log('Il dado ha fatto uscire:', result))
+    .catch(err => console.log(err));
+})
 .catch(err => console.log(err))
